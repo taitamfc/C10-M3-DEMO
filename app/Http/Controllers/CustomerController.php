@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -53,32 +54,62 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        
         $roles = [
-            //'title' => 'required|unique:posts|max:255',
             'name'  => 'required|max:255',//yeu cau va do dai toi da 255
             'email' => 'required|unique:customers',//yeu cau va duy nhat
             'phone' => 'required',//yeu cau
         ];
-
         $messages = [
-            'required' => 'Truong bat buoc',
+            'name.required' => 'Ten la bat buoc',
+            'email.required' => 'Email la bat buoc',
+            'phone.required' => 'Phone la bat buoc',
             'unique' => 'Da ton tai'
         ];
         
-        //xac thuc du lieu
-        $this->validate($request, $roles , $messages);
+        $validator = Validator::make($request->all(), $roles , $messages);
 
+        //neu that bai, chuyen huong ve trang create
+        if ($validator->fails()) {
+            return redirect()->route('customers.create')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        //neu OK
         //luu vao CSDL
         $objCustomer = new Customer();
         $objCustomer->name = $request->name;
         $objCustomer->email = $request->email;
         $objCustomer->phone = $request->phone;
         $objCustomer->save();
+        //chuyen huong ve index
+        return redirect()->route('customers.index');
+    }
 
+    public function store_bk(Request $request)
+    {
+        $roles = [
+            //'title' => 'required|unique:posts|max:255',
+            'name'  => 'required|max:255',//yeu cau va do dai toi da 255
+            'email' => 'required|unique:customers',//yeu cau va duy nhat
+            'phone' => 'required',//yeu cau
+        ];
+        $messages = [
+            'name.required' => 'Ten la bat buoc',
+            'email.required' => 'Email la bat buoc',
+            'phone.required' => 'Phone la bat buoc',
+            'unique' => 'Da ton tai'
+        ];
+        //xac thuc du lieu
+        $this->validate($request, $roles , $messages);
+        //luu vao CSDL
+        $objCustomer = new Customer();
+        $objCustomer->name = $request->name;
+        $objCustomer->email = $request->email;
+        $objCustomer->phone = $request->phone;
+        $objCustomer->save();
         //chuyen huong
         return redirect()->route('customers.index');
-
     }
 
     /**
