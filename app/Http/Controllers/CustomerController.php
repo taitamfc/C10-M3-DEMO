@@ -53,13 +53,21 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //xac thuc du lieu
-        $this->validate($request, [
+        
+        $roles = [
             //'title' => 'required|unique:posts|max:255',
             'name'  => 'required|max:255',//yeu cau va do dai toi da 255
             'email' => 'required|unique:customers',//yeu cau va duy nhat
             'phone' => 'required',//yeu cau
-        ]);
+        ];
+
+        $messages = [
+            'required' => 'Truong bat buoc',
+            'unique' => 'Da ton tai'
+        ];
+        
+        //xac thuc du lieu
+        $this->validate($request, $roles , $messages);
 
         //luu vao CSDL
         $objCustomer = new Customer();
