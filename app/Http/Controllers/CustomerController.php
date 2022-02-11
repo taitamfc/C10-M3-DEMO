@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\FormExampleRequest;
 
 class CustomerController extends Controller
 {
@@ -52,7 +53,19 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FormExampleRequest $request)
+    {
+        //neu OK
+        //luu vao CSDL
+        $objCustomer = new Customer();
+        $objCustomer->name = $request->name;
+        $objCustomer->email = $request->email;
+        $objCustomer->phone = $request->phone;
+        $objCustomer->save();
+        //chuyen huong ve index
+        return redirect()->route('customers.index');
+    }
+    public function store_bk2(Request $request)
     {
         //in ra du lieu duoc gui di
         //dd( $request->all() );
