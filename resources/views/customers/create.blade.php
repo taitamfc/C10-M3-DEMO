@@ -21,15 +21,30 @@ Them moi khach hang
     @csrf
     <div class="form-group">
         <lable>Ten khach hang<lable>
-        <input type="text" class="form-control" name="name">
+        <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+        <?php 
+        if ($errors->has('name')) {
+            echo $errors->first('name');
+        }
+        ?>
     </div>
     <div class="form-group">
         <lable>Email khach hang<lable>
-        <input type="email" class="form-control" name="email">
+        <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+        <?php 
+        if ($errors->has('name')) {
+            echo $errors->first('name');
+        }
+        ?>
     </div>
     <div class="form-group">
         <lable>Phone khach hang<lable>
-        <input type="text" class="form-control" name="phone">
+        <input type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+        <?php 
+        if ($errors->has('name')) {
+            echo $errors->first('name');
+        }
+        ?>
     </div>
     <div class="form-group">
         <input type="submit" class="btn btn-primary" value="Them moi">
